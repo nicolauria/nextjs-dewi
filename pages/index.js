@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Contact from '../components/Contact'
+import Newsletter from '../components/Newsletter'
 
 import { GraphQLClient } from "graphql-request";
 
@@ -486,7 +487,6 @@ export default ({ portfolios }) => {
               </div>
               <div className="row portfolio-container" data-aos="fade-up" data-aos-delay={200}>
               {portfolios.map((portfolio) => {
-                console.log(portfolio)
                     return (
                         <>
                         <div className="col-lg-4 col-md-6 portfolio-item filter-app">
@@ -688,13 +688,14 @@ export default ({ portfolios }) => {
                     <li><i className="bx bx-chevron-right" /> <a href="#">Graphic Design</a></li>
                   </ul>
                 </div>
-                <div className="col-lg-4 col-md-6 footer-newsletter">
+                <Newsletter />
+                {/* <div className="col-lg-4 col-md-6 footer-newsletter">
                   <h4>Our Newsletter</h4>
                   <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
                   <form action method="post">
                     <input type="email" name="email" /><input type="submit" defaultValue="Subscribe" />
                   </form>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
