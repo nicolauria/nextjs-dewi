@@ -1,9 +1,36 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import Portfolio from '../components/Portfolio'
 import Contact from '../components/Contact'
 
-export default function Home() {
+import { GraphQLClient } from "graphql-request";
+
+const graphcms = new GraphQLClient(process.env.GRAPHQL_URL_ENDPOINT);
+graphcms.setHeader('authorization', `Bearer ${process.env.BEARER_TOKEN}`)
+
+export async function getStaticProps() {
+    const { portfolios } = await graphcms.request(
+      `
+      query Portfolios() {
+        portfolios {
+          title
+          image {
+            url
+          }
+        }
+      }
+    `
+    );
+
+    console.log(portfolios)
+  
+    return {
+      props: {
+        portfolios,
+      },
+    };
+  }
+
+export default ({ portfolios }) => {
   return (
     <>
     <div>
@@ -458,8 +485,23 @@ export default function Home() {
                 </div>
               </div>
               <div className="row portfolio-container" data-aos="fade-up" data-aos-delay={200}>
-                <Portfolio />
-                <div className="col-lg-4 col-md-6 portfolio-item filter-app">
+              {portfolios.map((portfolio) => {
+                console.log(portfolio)
+                    return (
+                        <>
+                        <div className="col-lg-4 col-md-6 portfolio-item filter-app">
+                          <img src={portfolio.image.url} className="img-fluid" alt="" />
+                          <div className="portfolio-info">
+                            <h4>{portfolio.title}</h4>
+                            <p>App</p>
+                            <a href="img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery" className="portfolio-lightbox preview-link" title="App 1"><i className="bx bx-plus" /></a>
+                            <a href="portfolio-details.html" className="details-link" title="More Details"><i className="bx bx-link" /></a>
+                          </div>
+                        </div>
+                        </>
+                    );
+                })}
+                {/* <div className="col-lg-4 col-md-6 portfolio-item filter-app">
                   <img src="img/portfolio/portfolio-1.jpg" className="img-fluid" alt="" />
                   <div className="portfolio-info">
                     <h4>App 1</h4>
@@ -539,7 +581,7 @@ export default function Home() {
                     <a href="img/portfolio/portfolio-9.jpg" data-gallery="portfolioGallery" className="portfolio-lightbox preview-link" title="Web 3"><i className="bx bx-plus" /></a>
                     <a href="portfolio-details.html" className="details-link" title="More Details"><i className="bx bx-link" /></a>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </section>{/* End Portfolio Section */}

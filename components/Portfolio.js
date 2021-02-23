@@ -15,7 +15,7 @@ export async function getStaticProps() {
     `
     );
 
-    console.log(portfolios);
+    console.log(portfolios)
   
     return {
       props: {
