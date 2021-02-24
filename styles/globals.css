@@ -14,3 +14,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.posts-page .navbar a {
+  color: #333 !important;
+}
